@@ -52,10 +52,6 @@ class Server:
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
         """returns a dictionary of hypermedia keys and values
-
-        Args:
-            page (int, optional):Defaults to 1.
-            page_size (int, optional):Defaults to 10.
         """
         page_data = self.get_page(page, page_size)
 
