@@ -50,10 +50,7 @@ class Server:
         next_index = start_index + page_size
 
         dataset = self.indexed_dataset()
-        data = [
-            dataset[i] for i in range(
-                start_index, min(
-                    start_index + page_size, len(dataset)))]
+        data = dataset[start_index:min(next_index, len(dataset))]
 
         return {
             "index": start_index,
