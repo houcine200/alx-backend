@@ -41,12 +41,14 @@ class Server:
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """Returns a dictionary containing hypermedia keys and values."""
+        dataset_length = len(self.dataset())
+
         assert isinstance(index, int)
-        assert index in range(len(self.dataset()))
+        assert index in range(dataset_length)
         assert isinstance(page_size, int) and page_size > 0
 
-        dataset_length = len(self.dataset())
-        start_index = index if index is not None and index < dataset_length else 0
+        if index is None:
+            start_index = 0
 
         next_index = min(start_index + page_size, dataset_length)
 
