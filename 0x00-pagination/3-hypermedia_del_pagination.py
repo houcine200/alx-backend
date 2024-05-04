@@ -48,15 +48,15 @@ class Server:
         assert isinstance(page_size, int) and page_size > 0
 
         if index is None:
-            start_index = 0
+            index = 0
 
-        next_index = min(start_index + page_size, dataset_length)
+        next_index = min(index + page_size, dataset_length)
 
         dataset = self.dataset()
-        data = dataset[start_index:next_index]
+        data = dataset[index:next_index]
 
         return {
-            "index": start_index,
+            "index": index,
             "next_index": next_index,
             "page_size": page_size,
             "data": data
