@@ -45,9 +45,9 @@ class Server:
         assert index in range(len(self.dataset()))
         assert isinstance(page_size, int) and page_size > 0
 
-        start_index = index if index is not None else 0
-
         dataset_length = len(self.dataset())
+        start_index = index if index is not None and index < dataset_length else 0
+
         next_index = min(start_index + page_size, dataset_length)
 
         dataset = self.indexed_dataset()
