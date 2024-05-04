@@ -47,10 +47,11 @@ class Server:
 
         start_index = index if index is not None else 0
 
-        next_index = start_index + page_size
+        dataset_length = len(self.dataset())
+        next_index = min(start_index + page_size, dataset_length)
 
         dataset = self.indexed_dataset()
-        data = dataset[start_index:min(next_index, len(dataset))]
+        data = dataset[start_index:next_index]
 
         return {
             "index": start_index,
