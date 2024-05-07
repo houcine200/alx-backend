@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """A script for FIFO caching system
 """
-BaseCaching = __import__('base_caching').BaseCaching
 from collections import deque
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LIFOCache (BaseCaching):
@@ -11,7 +11,6 @@ class LIFOCache (BaseCaching):
         """Initialize BasicCache"""
         super().__init__()
         self.order = deque()
-
 
     def put(self, key, item):
         """Add an item in the cache"""
@@ -24,7 +23,6 @@ class LIFOCache (BaseCaching):
             discarded_key = self.order[-2]
             print(f"DISCARD: {discarded_key}")
             del self.cache_data[discarded_key]
-
 
     def get(self, key):
         """Get an item by key"""
