@@ -27,16 +27,16 @@ users = {
 
 def get_user(user_id) -> dict:
     '''Return user dictionary based on user ID'''
-    id = request.args.get('login_as')
-    if id and int(id) in users:
-        return users.get(int(id))
+    login_id = request.args.get('login_as')
+    if login_id:
+        return users.get(int(login_id))
     return None
-
 
 @app.before_request
 def before_request():
     '''Set user global on flask.g'''
-    g.user = get_user()
+    id = request.args.get('login_as', None)
+    g.user = get_user(id)
 
 
 
