@@ -32,12 +32,12 @@ def get_user(user_id) -> dict:
         return users.get(int(login_id))
     return None
 
+
 @app.before_request
 def before_request():
     '''Set user global on flask.g'''
     id = request.args.get('login_as', None)
     g.user = get_user(id)
-
 
 
 @babel.localeselector
