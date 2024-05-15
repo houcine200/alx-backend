@@ -49,7 +49,10 @@ def get_locale() -> str:
         return locale
 
     # 2. Locale from user settings
-    if g.user and 'locale' in g.user and g.user['locale'] in app.config['LANGUAGES']:
+    if (
+        g.user and 'locale' in g.user and
+        g.user['locale'] in app.config['LANGUAGES']
+    ):
         return g.user['locale']
 
     # 3. Locale from request header
