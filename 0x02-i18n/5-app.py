@@ -33,6 +33,7 @@ def get_user() -> dict:
     return None
 
 
+@app.before_request
 def before_request():
     '''Set user global on flask.g'''
     g.user = get_user()
@@ -43,7 +44,6 @@ def before_request():
 def get_locale() -> str:
     '''Get the preferred language based on the user's request'''
     locale = request.args.get('locale')
-    print(locale)
     if locale in app.config['LANGUAGES']:
         return locale
 
