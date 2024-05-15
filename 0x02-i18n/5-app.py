@@ -25,7 +25,7 @@ users = {
 }
 
 
-def get_user() -> dict:
+def get_user(user_id) -> dict:
     '''Return user dictionary based on user ID'''
     id = request.args.get('login_as')
     if id and int(id) in users:
