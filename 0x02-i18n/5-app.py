@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
-"""Mock logging in by creating a user login system"""
-from flask import Flask, render_template, g, request
+'''Basic Flask application'''
+from flask import Flask, render_template, request, g
 from flask_babel import Babel
-from typing import Dict, Union
-
 
 app = Flask(__name__)
 babel = Babel(app)
+
+
+class Config():
+    '''Configuration class for the application'''
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
+
+
+app.config.from_object(Config)
 
 
 users = {
@@ -17,49 +25,36 @@ users = {
 }
 
 
-class Config:
-    """Configuration class for Flask app."""
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
+def get_user() -> dict:
+    '''Return user dictionary based on user ID'''
+    id = request.args.get('login_as')
+    if id and int(id) in users:
+        return users.get(int(id))
+    return None
 
 
-app.config.from_object(Config)
+def before_request():
+    '''Set user global on flask.g'''
+    g.user = get_user()
+
 
 
 @babel.localeselector
 def get_locale() -> str:
-    """Check if locale parameter is present in the request URL."""
+    '''Get the preferred language based on the user's request'''
     locale = request.args.get('locale')
-    if locale and locale in app.config['LANGUAGES']:
+    print(locale)
+    if locale in app.config['LANGUAGES']:
         return locale
-    else:
-        return request.accept_languages.best_match(app.config['LANGUAGES'])
 
-
-def get_user(user_id: int) -> Dict:
-    """
-    Function that returns a user dictionary or None
-    if the ID cannot be found or if login_as was not passed
-    """
-    return users.get(int(user_id))
-
-
-@app.before_request
-def before_request():
-    """Function and use the app.before_request decorator to
-    make it be executed before all other functions. It should use
-    get_user to find a user if any, and set it as a global on flask.g.user.
-    """
-    user_id = (request.args.get('login_as', 0))
-    g.user = get_user(user_id)
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
 def index() -> str:
-    """Render the index HTML file"""
-    return render_template('5-index.html')
+    '''Returns the rendered template for index.html page'''
+    return render_template('4-index.html')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port="5000", host="0.0.0.0", debug=True)
