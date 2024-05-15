@@ -25,7 +25,7 @@ users = {
 }
 
 
-def get_user() -> dict:
+def get_user(user_id) -> dict:
     '''Return user dictionary based on user ID'''
     id = request.args.get('login_as')
     if id and int(id) in users:
@@ -33,6 +33,7 @@ def get_user() -> dict:
     return None
 
 
+@app.before_request
 def before_request():
     '''Set user global on flask.g'''
     g.user = get_user()
@@ -43,7 +44,6 @@ def before_request():
 def get_locale() -> str:
     '''Get the preferred language based on the user's request'''
     locale = request.args.get('locale')
-    print(locale)
     if locale in app.config['LANGUAGES']:
         return locale
 
@@ -53,7 +53,7 @@ def get_locale() -> str:
 @app.route('/')
 def index() -> str:
     '''Returns the rendered template for index.html page'''
-    return render_template('4-index.html')
+    return render_template('5-index.html')
 
 
 if __name__ == '__main__':
